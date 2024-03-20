@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+    body {
+        background-color: cadetblue;
+        color: darkred;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+    }
+    h1 {
+        color: brown;
+        font-size: 36px;
+        margin-bottom: 20px;
+    }
+    input[type="datetime-local"] {
+        width: 200px;
+        margin-bottom: 20px;
+    }
+    button {
+        color: deepskyblue;
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+    #timer-container {
+        color: red;
+        margin-top: 20px;
+    }
+
+    </style>
+</head>
+<body>
+    <h1>Countdown Timer</h1>
+    <input type="datetime-local" id="target-time" value="2023-01-01T00:00">
+    <button onclick="startCountdown()">Start Countdown</button>
+    <div id="timer-container">
+        <h2 id="timer"></h2>
+    </div>
+    <script>
+        let targetTime;
+        let countdownInterval;
+
+        function updateTimer() {
+            const now = new Date();
+            const diffMs = targetTime - now;
+            const diffDays = Math.floor(diffMs / 86400000); // days
+            const diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+            const diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+            document.getElementById("timer").innerText = `${diffDays} days, ${diffHrs} hours, ${diffMins} minutes`;
+            if (diffMs <= 0) {
+                clearInterval(countdownInterval);
+                document.getElementById("timer").innerText = "Countdown finished!";
+            }
+        }
+
+        function startCountdown() {
+            targetTime = new Date(document.getElementById("target-time").value);
+            countdownInterval = setInterval(updateTimer, 1000);
+        }
+    </script>
+</body>
+</html>
